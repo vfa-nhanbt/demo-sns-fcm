@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">DemoSNSFCM</string>
+    <string name="channel_id">com.nhanbt.demosnsfcm.channel.id</string>
+</resources>
