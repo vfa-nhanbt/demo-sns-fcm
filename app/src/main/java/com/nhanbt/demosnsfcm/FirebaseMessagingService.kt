@@ -9,6 +9,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.google.gson.Gson
 
 const val TAG = "onMessageReceived"
 
@@ -23,13 +24,12 @@ class FirebaseMessagingService: FirebaseMessagingService() {
         } else {
             Log.d(TAG, "Message data is empty!")
         }
+        val gson = Gson()
+        Log.d("SNS_RESPONSE", "Remote message data: ${remoteMessage.data["default"]}")
+        val data = gson.fromJson(remoteMessage.data["default"], Data::class.java)
+        Log.d("SNS_RESPONSE", "Response: $data")
 
-        // Check if message contains a notification payload.
-        remoteMessage.notification?.let {
-            Log.d(TAG, "Message Notification: ${it.title} / ${it.body}")
-            createNotification(it.title!!, it.body!!)
-        }
-
+        createNotification(data!!.eventType!!, data!!.message!!)
     }
 
     private fun createNotification(title: String, description: String) {
@@ -50,8 +50,10 @@ class FirebaseMessagingService: FirebaseMessagingService() {
                 )
                 .setOnlyAlertOnce(true)
                 .setContentTitle(title)
+                .setAutoCancel(true)
                 .setContentText(description)
                 .setContentIntent(pendingIntent)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(description))
                 .build()
 
         val notificationManager =

@@ -18,8 +18,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    private val topicArn = "arn:aws:sns:us-east-1:814443606628:test-sns"
-    private val appArn = "arn:aws:sns:us-east-1:814443606628:app/GCM/Test-SNS-1702"
+    private val topicArn = "arn:aws:sns:us-east-1:814443606628:Topic_dev_eecc51d6-82a0-43de-9420-dff538f2828f"
+    private val appArn = "arn:aws:sns:us-east-1:814443606628:app/GCM/Platform_FCM_dev_eecc51d6-82a0-43de-9420-dff538f2828f"
     private val accessKey = "AKIA33IE7GJSJIWSYL44"
     private val secretAccess = "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"
     private lateinit var deviceToken: String
@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("SNS_CLIENT", request.toString())
             val result = snsClient.subscribe(request)
             println("The subscription Arn is ${result.subscriptionArn}")
-            val filterPolicy = "{\"userId\": [\"user-id-test\"]}"
+            val filterPolicy = "{\"userId\": [\"cc741b20-f392-4a2e-e00f-f418bb12be12\"]}"
             val setSubscriptionAttributesRequest = SetSubscriptionAttributesRequest {
                 subscriptionArn = result.subscriptionArn
                 attributeName = "FilterPolicy"
